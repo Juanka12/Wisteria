@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "535189340870",
+    "project_id": "wisteria-f3538",
+    "storage_bucket": "wisteria-f3538.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535189340870:android:aa4f50d90b68a0dfa88dc7",
+        "android_client_info": {
+          "package_name": "com.example.wisteria"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "535189340870-apoqo5fdocc44u53m5afcdvn74n5jk0c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wisteria",
+            "certificate_hash": "165e2f95a4c53267dff2baf02af601972a153df1"
+          }
+        },
+        {
+          "client_id": "535189340870-7tgijibrke1vdvg6plgdlupuuakb4f5d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJWkphJjCwpjoTadVHuz1g9od5FzK-60M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "535189340870-7tgijibrke1vdvg6plgdlupuuakb4f5d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
