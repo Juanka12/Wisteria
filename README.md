@@ -1,16 +1,10 @@
-# wisteria
+# Wisteria
 
-A new Flutter project.
+A Flutter project for Android & iOS.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This is a final degree project, an App about movies where you can **See** **Save** and **Share** whatever film that come to your mind.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Link Wisteria APK, Alpha phase](https://drive.google.com/file/d/1SLnWt55anGkjwJv_z960VTCzYJGn73p0/view?usp=sharing)
+- [UI Made by RFK](https://www.behance.net/RahalFK)
