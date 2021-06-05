@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wisteria/bloc/perfilBloc.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/model/user.dart';
 import 'package:wisteria/services/authService.dart';
 import 'package:wisteria/services/navigationService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/loading.dart';
 import 'package:wisteria/widgets/mainPerfil.dart';
 import 'package:wisteria/widgets/navigationBar.dart';
@@ -30,12 +32,13 @@ class _PerfilScreenState extends State<PerfilScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Scaffold(
       bottomNavigationBar: NavigationBar(index: this.pageIndex),
       extendBody: true,
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: screen.width,
+        height: screen.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
@@ -46,7 +49,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
           stream: perfilBloc.subject.stream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return buildPerfilPage(snapshot.data);
+              return buildPerfilPage(snapshot.data, screen);
             }
             return Loading();
           },
@@ -55,7 +58,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
     );
   }
 
-  Widget buildPerfilPage(User data) {
+  Widget buildPerfilPage(User data, ScreenSize screen) {
     return SafeArea(
           bottom: false,
           child: Stack(
@@ -111,7 +114,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     padding: EdgeInsets.only(top: 20.0, right: 80.0),
                     child: Image(
                       image: AssetImage('assets/images/Perfil.png'),
-                      height: 140,
+                      height: screen.height * 0.18,
                     ),
                   ),
                   MainPerfil(user: data,),

@@ -3,10 +3,14 @@ import 'package:wisteria/bloc/movieDetailBloc.dart';
 import 'package:wisteria/model/movie.dart';
 import 'package:wisteria/model/movieDetail.dart';
 import 'package:wisteria/model/movieDetailResponse.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/services/firestoreService.dart';
+import 'package:wisteria/services/movieAPI.dart';
 import 'package:wisteria/services/navigationService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/actorsToShow.dart';
 import 'package:wisteria/widgets/loading.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieDetailScreen extends StatefulWidget {
   final Movie movie;
@@ -18,6 +22,7 @@ class MovieDetailScreen extends StatefulWidget {
 
 class _MovieDetailStateScreen extends State<MovieDetailScreen> {
   final Movie movie;
+  String trailerKey;
   _MovieDetailStateScreen(this.movie);
   
   @override
@@ -35,10 +40,11 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: screen.width,
+        height: screen.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
@@ -50,7 +56,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data.error.length <= 0) {
-                return buildDetailPage(snapshot.data);
+                return buildDetailPage(snapshot.data, screen);
               }
             }
             return Loading();
@@ -60,7 +66,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
     );
   }
 
-  Widget buildDetailPage(MovieDetailResponse data) {
+  Widget buildDetailPage(MovieDetailResponse data, ScreenSize screen) {
     MovieDetail detail = data.movieDetail;
     String genre = detail.genres;
     if (genre.contains(',')) {
@@ -75,7 +81,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
               child: Hero(
                 tag: this.movie.id,
                 child: Container(
-                  height: 360,
+                  height: screen.height * 0.45,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -96,9 +102,10 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 40.0,top: 290.0, right: 300.0),
+              padding: EdgeInsets.only(left: 40.0,top: screen.height * 0.36),
               child: Container(
-                height: 70,
+                height: screen.height * 0.09,
+                width: screen.width * 0.18,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
                   image: DecorationImage(
@@ -109,7 +116,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 48.0,top: 300.0),
+              padding: EdgeInsets.only(left: screen.width * 0.12,top: screen.height * 0.37),
               child: IconButton(
                 icon: detail.fav == true ? Icon(Icons.favorite, color: Colors.white, size: 40.0,) : Icon(Icons.favorite_border_outlined, color: Colors.white, size: 40.0,),
                 onPressed: () {
@@ -126,11 +133,11 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 18.0, right: 335, top: 60.0),
+              padding: EdgeInsets.only(left: 18.0, right: screen.width * 0.85, top: screen.height * 0.07),
               child: Container(
                 padding: EdgeInsets.only(left: 4.0),
-                height: 40,
-                width: 40,
+                height: screen.height * 0.05,
+                width: screen.width * 0.1,
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -145,19 +152,21 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
                 ),
                 child: IconButton(
                   icon: Icon(Icons.arrow_back_ios, color: Colors.amber.shade800,),
-                  onPressed: () {NavigationService().back();},
+                  onPressed: () {
+                    NavigationService().back();
+                  },
                 ),
               ),
             ),
           ],
         ),
         Container(
-          margin: EdgeInsets.only(left: 40.0, right: 100.0, top: 30.0),
+          margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 30.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Container(
-                width: 180,
+                width: screen.width * 0.46,
                 child: Text(this.movie.title, style: Theme.of(context).textTheme.headline2),
               ),
               Container(
@@ -166,6 +175,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
                 color: Colors.black,
               ),
               Container(
+                margin: EdgeInsets.only(left: 10),
                 child: Text(detail.releaseDate, style: Theme.of(context).textTheme.headline3),
               ),
             ],
@@ -196,7 +206,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
                     Container(
                       margin: EdgeInsets.only(right: 10.0),
                       child: Image(image: AssetImage("assets/icons/metacritic.png")),
-                      height: 40,
+                      height: screen.height * 0.05,
                     ),
                     Text(detail.metacriticRate)
                   ],
@@ -208,7 +218,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
                     Container(
                       margin: EdgeInsets.only(right: 10.0),
                       child: Image(image: AssetImage("assets/icons/imdb.png")),
-                      width: 70,
+                      width: screen.width * 0.18,
                     ),
                     Text(detail.imdbRate)
                   ],
@@ -255,43 +265,107 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
           margin: EdgeInsets.only(top: 20.0, left: 50.0),
           child: Text("Tráiler", style: Theme.of(context).textTheme.headline2),
         ),
-        Container(
-          height: 250,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 20.0, left: 50.0, right: 40.0),
-                height: 180,
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.6),
-                        spreadRadius: 3,
-                        blurRadius: 7,
-                        offset: Offset(3, 5),
-                      ),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    shape: BoxShape.rectangle,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage("https://image.tmdb.org/t/p/original/"+this.movie.backPoster)
-                    )
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 20.0,
-                top: 0.0,
-                right: 0.0,
-                left: 18.0,
-                child: Icon(Icons.play_circle_outline, color: Colors.white,size: 50.0,),
-              ),
-            ],
-          ),
-        ),
+        this.trailerKey == null ? trailerThumbnail(screen) : trailerVideo(screen),
       ],
     );
+  }
+
+  Widget trailerThumbnail(ScreenSize screen) {
+    return GestureDetector(
+          onTap: () {
+            MovieAPI().getTrailer(this.movie.id).then((value) {
+              setState(() {
+                this.trailerKey = value;
+              });
+            });
+          },
+          child: Container(
+            height: screen.height * 0.31,
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 20.0, left: 50.0, right: 40.0),
+                  height: screen.height * 0.23,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.6),
+                          spreadRadius: 3,
+                          blurRadius: 7,
+                          offset: Offset(3, 5),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      shape: BoxShape.rectangle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage("https://image.tmdb.org/t/p/original/"+this.movie.backPoster)
+                      )
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 20.0,
+                  top: 0.0,
+                  right: 0.0,
+                  left: 18.0,
+                  child: Icon(Icons.play_circle_outline, color: Colors.white,size: 50.0,),
+                ),
+              ],
+            ),
+          ),
+        );
+  }
+
+  Widget trailerVideo(ScreenSize screen) {
+    return GestureDetector(
+          onTap: () {
+            MovieAPI().getTrailer(this.movie.id).then((value) {
+              setState(() {
+                this.trailerKey = null;
+              });
+            });
+          },
+          child: Container(
+            height: screen.height * 0.31,
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 20.0, left: 50.0, right: 40.0),
+                  height: screen.height * 0.23,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.6),
+                          spreadRadius: 3,
+                          blurRadius: 7,
+                          offset: Offset(3, 5),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: YoutubePlayer(
+                      onEnded: (metaData) {
+                        setState(() {
+                          this.trailerKey = null;                    
+                        });                  
+                      },
+                      controller: YoutubePlayerController(
+                        initialVideoId: this.trailerKey,
+                        flags: YoutubePlayerFlags(
+                          autoPlay: true,
+                          hideControls: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
   }
 }

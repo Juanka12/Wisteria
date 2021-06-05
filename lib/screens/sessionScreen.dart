@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wisteria/model/screenSize.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/emailCredentials.dart';
 import 'package:wisteria/widgets/sessionButtons.dart';
 
@@ -10,11 +12,12 @@ class SessionScreen extends StatefulWidget {
 class _SessionScreenState extends State<SessionScreen> {
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: screen.width,
+        height: screen.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
@@ -42,7 +45,7 @@ class _SessionScreenState extends State<SessionScreen> {
                     padding: EdgeInsets.only(top: 60.0, right: 120.0),
                     child: Image(
                       image: AssetImage('assets/images/InicioSesion.png'),
-                      height: 180,
+                      height: screen.height * 0.22,
                     ),
                   ),
                   EmailCredentials(),

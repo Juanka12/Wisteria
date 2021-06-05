@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wisteria/bloc/moviesbyGenreBloc.dart';
 import 'package:wisteria/model/movie.dart';
 import 'package:wisteria/model/moviesResponse.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/services/navigationService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/loading.dart';
 
 class MoviesbyGenres extends StatefulWidget {
@@ -25,6 +27,7 @@ class _MoviesbyGenresState extends State<MoviesbyGenres> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -37,7 +40,7 @@ class _MoviesbyGenresState extends State<MoviesbyGenres> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.error.length <= 0) {
-              return buildGenreMovies(snapshot.data);
+              return buildGenreMovies(snapshot.data, screen);
             }
           }
           return Loading();
@@ -46,10 +49,9 @@ class _MoviesbyGenresState extends State<MoviesbyGenres> {
     );
   }
 
-  Widget buildGenreMovies(MovieResponse response) {
+  Widget buildGenreMovies(MovieResponse response, ScreenSize screen) {
     List<Movie> movies = response.movies;
     return Container(
-      height: 220,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
@@ -67,8 +69,8 @@ class _MoviesbyGenresState extends State<MoviesbyGenres> {
                   Hero(
                     tag: movies[index].id,
                     child: Container(
-                      height: 200,
-                      width: 150,
+                      height: screen.height * 0.25,
+                      width: screen.width * 0.38,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -89,7 +91,7 @@ class _MoviesbyGenresState extends State<MoviesbyGenres> {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 10.0),
-                    width: 180,
+                    width: screen.width * 0.46,
                     child: Text(movies[index].title, style: Theme.of(context).textTheme.headline2, textAlign: TextAlign.center,),
                   ),
                 ],

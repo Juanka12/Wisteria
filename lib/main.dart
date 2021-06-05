@@ -1,9 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wisteria/screens/wrapper.dart';
 import 'package:wisteria/widgets/loading.dart';
 
 void main() {
+  // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   statusBarColor: Colors.transparent,
+  //   statusBarBrightness: Brightness.light,
+  // ));
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }

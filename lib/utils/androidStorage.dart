@@ -39,10 +39,12 @@ class AndroidStorage {
 
     if (permissionStatus.isGranted) {
       var contacts = await ContactsService.getContacts();
-      print(contacts.elementAt(0).displayName);
-      print(contacts.elementAt(0).phones);
-      contacts.forEach((element) { 
-        numbers.add(element.phones.first.value);
+      contacts.forEach((element) {
+        String number = element.phones.first.value.replaceAll(' ', '');
+        if (number.startsWith('+')) {
+          number = number.replaceAll('+34', '');
+        }
+        numbers.add(number);
       });
     }
     return numbers;

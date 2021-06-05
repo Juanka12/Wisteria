@@ -3,7 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:wisteria/bloc/contactFavsBloc.dart';
 import 'package:wisteria/model/movie.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/services/navigationService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/loading.dart';
 
 class ContactFavScreen extends StatefulWidget {
@@ -35,11 +37,12 @@ class _ContactFavScreenState extends State<ContactFavScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Scaffold(
       extendBody: true,
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: screen.width,
+        height: screen.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
@@ -63,13 +66,13 @@ class _ContactFavScreenState extends State<ContactFavScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 100.0, left: 20.0),
-                child: Image(image: AssetImage("assets/images/Favoritos.png"),height: 100.0,),
+                child: Image(image: AssetImage("assets/images/Favoritos.png"),height: screen.height * 0.12,),
               ),
               StreamBuilder<List<Movie>>(
                 stream: contactFavsBloc.subject.stream,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return buildFavList(snapshot.data);
+                    return buildFavList(snapshot.data, screen);
                   }
                   return Loading();
                 },
@@ -81,10 +84,10 @@ class _ContactFavScreenState extends State<ContactFavScreen> {
     );
   }
 
-  Widget buildFavList(List<Movie> favs) {
+  Widget buildFavList(List<Movie> favs, ScreenSize screen) {
     return Container(
       margin: EdgeInsets.only(left: 20.0, top: 220.0),
-      height: 500,
+      height: screen.height,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/images/Background.png"),
@@ -117,8 +120,8 @@ class _ContactFavScreenState extends State<ContactFavScreen> {
                   Hero(
                     tag: favs[index].id,
                     child: Container(
-                      height: 150,
-                      width: 120,
+                      height: screen.height * 0.19,
+                      width: screen.width * 0.30,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -139,7 +142,7 @@ class _ContactFavScreenState extends State<ContactFavScreen> {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 20.0),
-                    width: 180,
+                    width: screen.width * 0.46,
                     child: Column(
                       children: <Widget>[
                         Container(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/model/user.dart';
 import 'package:wisteria/services/firestoreService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 
 class PersonalInfo extends StatefulWidget {
   final User user;
@@ -25,9 +27,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Container(
       margin: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 50.0),
-      height: 250,
+      height: screen.height * 0.31,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
         color: Colors.grey.shade300,
@@ -46,7 +49,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(left: 30.0),
-            width: 220,
+            width: screen.width * 0.56,
             child: Text('Datos Personales', style: Theme.of(context).textTheme.headline4,),
           ),
           Container(

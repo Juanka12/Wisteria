@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_brand_icons/flutter_brand_icons.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/services/authService.dart';
 import 'package:wisteria/services/navigationService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 
 class SessionButtons extends StatefulWidget {
   @override
@@ -11,12 +13,13 @@ class SessionButtons extends StatefulWidget {
 class _SessionButtonsState extends State<SessionButtons> {
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Column(
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 50.0),
-          height: 40,
-          width: 300,
+          height: screen.height * 0.05,
+          width: screen.width * 0.76,
           child: ElevatedButton(
             onPressed: () async {
               await AuthService().signInGoogle();
@@ -42,11 +45,11 @@ class _SessionButtonsState extends State<SessionButtons> {
         ),
         Container(
           margin: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 50.0),
-          height: 40,
-          width: 300,
+          height: screen.height * 0.05,
+          width: screen.width * 0.76,
           child: ElevatedButton(
             onPressed: () {
-              AuthService().registerEmailPassword('juancdmh@gmail.com', 'juanka');
+              NavigationService().navigateTo('newAccount');
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.black87,

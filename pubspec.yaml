@@ -44,6 +44,7 @@ dependencies:
   firebase_storage: ^8.0.6
   permission_handler: ^7.1.0
   contacts_service: ^0.6.1
+  youtube_player_flutter: ^8.0.0
 
 dev_dependencies:
   flutter_test:

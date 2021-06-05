@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wisteria/model/screenSize.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/genresToShow.dart';
 import 'package:wisteria/widgets/navigationBar.dart';
 import 'package:wisteria/widgets/searchBar.dart';
@@ -29,12 +31,13 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Scaffold(
       bottomNavigationBar: NavigationBar(index: this.pageIndex),
       extendBody: true,
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: screen.width,
+        height: screen.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),

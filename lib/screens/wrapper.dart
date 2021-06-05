@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wisteria/router.dart';
 import 'package:wisteria/screens/SessionScreen.dart';
 import 'package:wisteria/screens/newMovies.dart';
@@ -10,7 +11,7 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
     User user = FirebaseAuth.instance.currentUser;
     Widget screentoShow;
     if (user != null) {

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:wisteria/model/screenSize.dart';
 
 class MainTheme {
+
+  ScreenSize getScreenSize(BuildContext context) {
+    ScreenSize screen = ScreenSize(height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width);
+    return screen;
+  }
 
   ThemeData get theme => ThemeData(
     textTheme: TextTheme(

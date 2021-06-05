@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:wisteria/model/castDetail.dart';
 import 'package:wisteria/model/castResponse.dart';
 import 'package:wisteria/model/genreResponse.dart';
+import 'package:wisteria/model/movie.dart';
 import 'package:wisteria/model/movieDetailResponse.dart';
 import 'package:wisteria/model/movieIdsResponse.dart';
 import 'package:wisteria/model/moviesResponse.dart';
@@ -149,6 +151,57 @@ class MovieAPI {
     } catch (e) {
       print(e);
       return CastResponse.withError("$e");
+    }
+  }
+
+  Future<CastDetail> getCastDetail(int id) async {
+    String castDetailUrl = "$_movieUrl/person/$id";
+    var params = {
+      "api_key": _apiKey,
+      "language": 'es-ES',
+    };
+    try {
+      Response response = await _dio.get(castDetailUrl, queryParameters: params);
+      return CastDetail.fromJson(response.data);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<Movie>> getCastMovies(int id) async {
+    List<Movie> movies;
+    String castMovieUrl = "$_movieUrl/person/$id/movie_credits";
+    var params = {
+      "api_key": _apiKey,
+      "language": 'es-ES',
+    };
+    try {
+      Response response = await _dio.get(castMovieUrl, queryParameters: params);
+      movies = (response.data["cast"] as List).map((i) => new Movie.fromJson(i)).toList();
+      return movies;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<String> getTrailer(int id) async {
+    String trailerUrl = "$_movieUrl/movie/$id/videos";
+    var params = {
+      "api_key": _apiKey,
+      "language": 'es-ES',
+    };
+    try {
+      Response response = await _dio.get(trailerUrl, queryParameters: params);
+      if ((response.data["results"] as List).isEmpty) {
+        params = {
+          "api_key": _apiKey,
+          "language": 'en-US',
+        };
+        response = await _dio.get(trailerUrl, queryParameters: params);
+      }
+      return response.data["results"][0]["key"];
+    } catch (e) {
+      print(e);
     }
   }
 }

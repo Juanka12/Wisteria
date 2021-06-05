@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wisteria/bloc/searchBloc.dart';
 import 'package:wisteria/model/movie.dart';
 import 'package:wisteria/model/moviesResponse.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/services/navigationService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/loading.dart';
 
 class SearchResult extends StatefulWidget {
@@ -39,20 +41,20 @@ class _SearchResultState extends State<SearchResult> {
   
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return StreamBuilder<MovieResponse>(
       stream: searchBloc.subject.stream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return buildResultList(snapshot.data);
+          return buildResultList(snapshot.data, screen);
         }
         return Loading();
       },
     );
   }
 
-  Widget buildResultList(MovieResponse response) {
+  Widget buildResultList(MovieResponse response, ScreenSize screen) {
     List<Movie> movies = response.movies;
-    print(movies.length);
     return Container(
       margin: EdgeInsets.only(top: 80.0),
       child: ListView.builder(
@@ -64,7 +66,6 @@ class _SearchResultState extends State<SearchResult> {
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50.0,),
             child: GestureDetector(
               onTap: () {
-                print(movies[index]);
                 NavigationService().navigateTo('movieDetails', arguments: movies[index]);
               },
               child:Row(
@@ -72,8 +73,8 @@ class _SearchResultState extends State<SearchResult> {
                   Hero(
                     tag: movies[index].id,
                     child: Container(
-                      height: 200,
-                      width: 150,
+                      height: screen.height * 0.25,
+                      width: screen.width * 0.38,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -94,7 +95,7 @@ class _SearchResultState extends State<SearchResult> {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 10.0),
-                    width: 180,
+                    width: screen.width * 0.46,
                     child: Text(movies[index].title, style: Theme.of(context).textTheme.headline2, textAlign: TextAlign.center,),
                   ),
                 ],

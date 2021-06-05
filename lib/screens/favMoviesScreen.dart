@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wisteria/bloc/favMoviesBloc.dart';
 import 'package:wisteria/model/movie.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/services/navigationService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/loading.dart';
 import 'package:wisteria/widgets/navigationBar.dart';
 
@@ -27,12 +29,13 @@ class _FavMoviesScreenState extends State<FavMoviesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Scaffold(
       bottomNavigationBar: NavigationBar(index: this.pageIndex),
       extendBody: true,
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: screen.width,
+        height: screen.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
@@ -46,7 +49,7 @@ class _FavMoviesScreenState extends State<FavMoviesScreen> {
               Column(
                 children: <Widget>[
                   Container(
-                    child: Image(image: AssetImage("assets/images/Circle.png"),height: 250.0,),
+                    child: Image(image: AssetImage("assets/images/Circle.png"),height: screen.height * 0.31,),
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 50.0),
@@ -56,13 +59,13 @@ class _FavMoviesScreenState extends State<FavMoviesScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 100.0, left: 20.0),
-                child: Image(image: AssetImage("assets/images/Favoritos.png"),height: 100.0,),
+                child: Image(image: AssetImage("assets/images/Favoritos.png"),height: screen.height * 0.13,),
               ),
               StreamBuilder<List<Movie>>(
                 stream: favMoviesBloc.subject.stream,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return buildFavList(snapshot.data);
+                    return buildFavList(snapshot.data, screen);
                   }
                   return Loading();
                 },
@@ -74,10 +77,10 @@ class _FavMoviesScreenState extends State<FavMoviesScreen> {
     );
   }
 
-  Widget buildFavList(List<Movie> favs) {
+  Widget buildFavList(List<Movie> favs, ScreenSize screen) {
     return Container(
       margin: EdgeInsets.only(left: 20.0, top: 220.0),
-      height: 500,
+      height: screen.height,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/images/Background.png"),
@@ -110,8 +113,8 @@ class _FavMoviesScreenState extends State<FavMoviesScreen> {
                   Hero(
                     tag: favs[index].id,
                     child: Container(
-                      height: 150,
-                      width: 120,
+                      height: screen.height * 0.19,
+                      width: screen.width * 0.30,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -132,7 +135,7 @@ class _FavMoviesScreenState extends State<FavMoviesScreen> {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 20.0),
-                    width: 180,
+                    width: screen.width * 0.46,
                     child: Column(
                       children: <Widget>[
                         Container(

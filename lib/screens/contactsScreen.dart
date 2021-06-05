@@ -2,8 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:wisteria/bloc/contactsBloc.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/model/user.dart';
 import 'package:wisteria/services/navigationService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/loading.dart';
 
 class ContactsScreen extends StatefulWidget {
@@ -27,11 +29,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Scaffold(
       extendBody: true,
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: screen.width,
+        height: screen.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
@@ -45,7 +48,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
               Column(
                 children: <Widget>[
                   Container(
-                    child: Image(image: AssetImage("assets/images/Circle.png"),height: 250.0,),
+                    child: Image(image: AssetImage("assets/images/Circle.png"),height: screen.height * 0.31,),
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 50.0),
@@ -55,13 +58,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 100.0, left: 20.0),
-                child: Image(image: AssetImage("assets/images/Contactos.png"),height: 100.0,),
+                child: Image(image: AssetImage("assets/images/Contactos.png"),height: screen.height * 0.13,),
               ),
               StreamBuilder<List<User>>(
                 stream: contactsBloc.subject.stream,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return buildContactList(snapshot.data);
+                    return buildContactList(snapshot.data, screen);
                   }
                   return Loading();
                 },
@@ -73,10 +76,10 @@ class _ContactsScreenState extends State<ContactsScreen> {
     );
   }
 
-  Widget buildContactList(List<User> users) {
+  Widget buildContactList(List<User> users, ScreenSize screen) {
     return Container(
       margin: EdgeInsets.only(left: 20.0, top: 220.0),
-      height: 500,
+      height: screen.height,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/images/Background.png"),

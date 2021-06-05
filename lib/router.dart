@@ -2,7 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wisteria/model/cast.dart';
 import 'package:wisteria/model/movie.dart';
+import 'package:wisteria/screens/castDetailScreen.dart';
 import 'package:wisteria/screens/contactFavsScreen.dart';
 import 'package:wisteria/screens/contactsScreen.dart';
 import 'package:wisteria/screens/favMoviesScreen.dart';
@@ -10,6 +12,7 @@ import 'package:wisteria/screens/historialScreen.dart';
 import 'package:wisteria/screens/movieDetailScreen.dart';
 import 'package:wisteria/screens/newMovies.dart';
 import 'package:wisteria/screens/perfilScreen.dart';
+import 'package:wisteria/screens/registerAccountScreen.dart';
 import 'package:wisteria/screens/searchScreen.dart';
 import 'package:wisteria/screens/sessionScreen.dart';
 
@@ -42,6 +45,12 @@ Route<dynamic> generarRuta(RouteSettings ruta) {
 
     case 'contactFavs':
     return MaterialPageRoute(builder: (context) => ContactFavScreen(arguments: ruta.arguments));
+
+    case 'castDetails':
+    return MaterialPageRoute(builder: (context) => CastDetailScreen(cast: ruta.arguments as Cast));
+
+    case 'newAccount':
+    return MaterialPageRoute(builder: (context) => RegisterAccountScreen());
 
     default: 
       return MaterialPageRoute(builder: (context) => NewMovies());

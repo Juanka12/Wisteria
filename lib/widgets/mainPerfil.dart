@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/model/user.dart';
 import 'package:wisteria/services/firestoreService.dart';
 import 'package:wisteria/services/navigationService.dart';
+import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/utils/androidStorage.dart';
 
 class MainPerfil extends StatefulWidget {
@@ -24,9 +26,10 @@ class _MainPerfilState extends State<MainPerfil> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize screen = MainTheme().getScreenSize(context);
     return Container(
                     margin: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 50.0, top: 20.0),
-                    height: 250,
+                    height: screen.height * 0.31,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       color: Colors.grey.shade300,
@@ -46,7 +49,7 @@ class _MainPerfilState extends State<MainPerfil> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              height: 100,
+                              height: screen.height * 0.13,
                               child: FutureBuilder(
                                 future: FirestoreService().getAvatar(),
                                 builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -74,7 +77,7 @@ class _MainPerfilState extends State<MainPerfil> {
                             ),
                             Container(
                               alignment: Alignment.center,
-                              width: 160,
+                              width: screen.width * 0.4,
                               child: Text(this.user.name, style: Theme.of(context).textTheme.bodyText1, textAlign: TextAlign.center, maxLines: 2,),
                             ),
                           ],
