@@ -25,4 +25,8 @@ class MovieDetail {
         imdbRate = json["imdbRating"],
         director = json["Director"],
         writer = json["Writer"];
+
+  void setMetacriticRate(String rate) {
+    this.metacriticRate = rate;
+  }
 }

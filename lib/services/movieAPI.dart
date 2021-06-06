@@ -3,8 +3,8 @@ import 'package:wisteria/model/castDetail.dart';
 import 'package:wisteria/model/castResponse.dart';
 import 'package:wisteria/model/genreResponse.dart';
 import 'package:wisteria/model/movie.dart';
-import 'package:wisteria/model/movieDetailResponse.dart';
-import 'package:wisteria/model/movieIdsResponse.dart';
+import 'package:wisteria/model/movieDetail.dart';
+import 'package:wisteria/model/movieIds.dart';
 import 'package:wisteria/model/moviesResponse.dart';
 
 class MovieAPI {
@@ -103,7 +103,7 @@ class MovieAPI {
     }
   }
 
-  Future<MovieDetailResponse> getMovieDetails(String id) async {
+  Future<MovieDetail> getMovieDetails(String id) async {
     String movieDetailUrl = "https://www.omdbapi.com/";
     var params = {
       "apikey": 'fd781264',
@@ -112,7 +112,7 @@ class MovieAPI {
     try {
       Response response = await _dio.get(movieDetailUrl, queryParameters: params);
       List<dynamic> ratings = response.data["Ratings"];
-      MovieDetailResponse detail = MovieDetailResponse.fromJson(response.data);
+      MovieDetail detail = MovieDetail.fromJson(response.data);
       if (ratings.length >= 3) {
         detail.setMetacriticRate(ratings[2]["Value"]);
       }else{
@@ -121,7 +121,7 @@ class MovieAPI {
       return detail;
     } catch (e) {
       print(e);
-      return MovieDetailResponse.withError("$e");
+      return null;
     }
   }
 
@@ -132,10 +132,10 @@ class MovieAPI {
     };
     try {
       Response response = await _dio.get(movieIdUrl, queryParameters: params);
-      return MovieIdsResponse.fromJson(response.data).movie.imdbId;
+      return MovieIds.fromJson(response.data).imdbId;
     } catch (e) {
       print(e);
-      return MovieIdsResponse.withError("$e").movie.imdbId;
+      return null;
     }
   }
 
@@ -165,6 +165,7 @@ class MovieAPI {
       return CastDetail.fromJson(response.data);
     } catch (e) {
       print(e);
+      return null;
     }
   }
 
@@ -181,6 +182,7 @@ class MovieAPI {
       return movies;
     } catch (e) {
       print(e);
+      return null;
     }
   }
 
@@ -202,6 +204,7 @@ class MovieAPI {
       return response.data["results"][0]["key"];
     } catch (e) {
       print(e);
+      return null;
     }
   }
 }

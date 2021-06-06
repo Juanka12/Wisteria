@@ -4,11 +4,6 @@ import 'package:wisteria/screens/wrapper.dart';
 import 'package:wisteria/widgets/loading.dart';
 
 void main() {
-  // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //   statusBarColor: Colors.transparent,
-  //   statusBarBrightness: Brightness.light,
-  // ));
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }

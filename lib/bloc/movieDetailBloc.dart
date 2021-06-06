@@ -1,15 +1,15 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:wisteria/model/movieDetailResponse.dart';
+import 'package:wisteria/model/movieDetail.dart';
 import 'package:wisteria/services/firestoreService.dart';
 import 'package:wisteria/services/movieAPI.dart';
 
 class MovieDetailBloc {
-  final BehaviorSubject<MovieDetailResponse> _subject = BehaviorSubject<MovieDetailResponse>();
+  final BehaviorSubject<MovieDetail> _subject = BehaviorSubject<MovieDetail>();
 
   getMovieDetail(int id) async {
     String imdbId = await MovieAPI().getMovieImdbId(id);
-    MovieDetailResponse response = await MovieAPI().getMovieDetails(imdbId);
-    response.movieDetail.fav = await FirestoreService().isMovieFav(id);
+    MovieDetail response = await MovieAPI().getMovieDetails(imdbId);
+    response.fav = await FirestoreService().isMovieFav(id);
     _subject.sink.add(response);
   }
 
@@ -22,6 +22,6 @@ class MovieDetailBloc {
     _subject.close();
   }
 
-  BehaviorSubject<MovieDetailResponse> get subject => _subject;
+  BehaviorSubject<MovieDetail> get subject => _subject;
 }
 final movieDetailBloc = MovieDetailBloc();

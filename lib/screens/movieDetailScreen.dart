@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wisteria/bloc/movieDetailBloc.dart';
 import 'package:wisteria/model/movie.dart';
 import 'package:wisteria/model/movieDetail.dart';
-import 'package:wisteria/model/movieDetailResponse.dart';
 import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/services/firestoreService.dart';
 import 'package:wisteria/services/movieAPI.dart';
@@ -51,13 +50,11 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: StreamBuilder<MovieDetailResponse>(
+        child: StreamBuilder<MovieDetail>(
           stream: movieDetailBloc.subject.stream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data.error.length <= 0) {
                 return buildDetailPage(snapshot.data, screen);
-              }
             }
             return Loading();
           },
@@ -66,9 +63,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
     );
   }
 
-  Widget buildDetailPage(MovieDetailResponse data, ScreenSize screen) {
-    print(data.movieDetail);
-    MovieDetail detail = data.movieDetail;
+  Widget buildDetailPage(MovieDetail detail, ScreenSize screen) {
     String genre = detail.genres;
     if (genre.contains(',')) {
       genre = detail.genres.substring(0, detail.genres.indexOf(','));
