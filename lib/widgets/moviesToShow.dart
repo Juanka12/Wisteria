@@ -6,7 +6,6 @@ import 'package:wisteria/model/screenSize.dart';
 import 'package:wisteria/services/navigationService.dart';
 import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/loading.dart';
-import 'package:wisteria/widgets/trailersToShow.dart';
 
 class MoviestoShow extends StatefulWidget {
   @override

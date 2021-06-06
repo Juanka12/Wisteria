@@ -3,7 +3,7 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class SearchBar extends StatefulWidget {
   final Function(String query) onSubmit;
-  FloatingSearchBarController _controller = FloatingSearchBarController();
+  final FloatingSearchBarController _controller = FloatingSearchBarController();
 
   FloatingSearchBarController get controller => this._controller;
   

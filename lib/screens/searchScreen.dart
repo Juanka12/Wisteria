@@ -44,11 +44,35 @@ class _SearchScreenState extends State<SearchScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Stack(
-          children: <Widget>[
-            this.pageToDisplay,
-            this.searchBar,
-          ],
+        child: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Container(
+                    child: Image(image: AssetImage("assets/images/CircleGold.png"),height: screen.height * 0.31,),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 50.0),
+                    child: Image(image: AssetImage("assets/images/BG.png")),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 30.0),
+                child: Image(image: AssetImage("assets/images/Descubrir.png"), height: screen.height * 0.18,),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 180.0),
+                child: this.pageToDisplay,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 160.0),
+                child: this.searchBar,
+              ),
+            ],
+          ),
         ),
       ),
     );

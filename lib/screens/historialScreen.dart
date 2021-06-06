@@ -79,7 +79,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
   Widget buildHistoryList(List<Movie> movies, ScreenSize screen) {
     return Container(
       margin: EdgeInsets.only(left: 20.0, top: 220.0),
-      height: screen.height * 0.62,
+      height: screen.height,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/images/Background.png"),

@@ -1,6 +1,5 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:wisteria/model/movie.dart';
-import 'package:wisteria/model/moviesResponse.dart';
 import 'package:wisteria/services/firestoreService.dart';
 
 class HistorialBloc {

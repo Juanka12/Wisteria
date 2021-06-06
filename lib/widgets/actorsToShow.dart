@@ -3,7 +3,6 @@ import 'package:wisteria/bloc/actorsBloc.dart';
 import 'package:wisteria/model/cast.dart';
 import 'package:wisteria/model/castResponse.dart';
 import 'package:wisteria/model/screenSize.dart';
-import 'package:wisteria/screens/castDetailScreen.dart';
 import 'package:wisteria/services/navigationService.dart';
 import 'package:wisteria/styles/mainTheme.dart';
 import 'package:wisteria/widgets/loading.dart';

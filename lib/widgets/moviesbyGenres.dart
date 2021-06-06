@@ -28,24 +28,16 @@ class _MoviesbyGenresState extends State<MoviesbyGenres> {
   @override
   Widget build(BuildContext context) {
     ScreenSize screen = MainTheme().getScreenSize(context);
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/Background.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: StreamBuilder<MovieResponse>(
-        stream: moviesbyGenreBloc.subject.stream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data.error.length <= 0) {
-              return buildGenreMovies(snapshot.data, screen);
-            }
+    return StreamBuilder<MovieResponse>(
+      stream: moviesbyGenreBloc.subject.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data.error.length <= 0) {
+            return buildGenreMovies(snapshot.data, screen);
           }
-          return Loading();
-        },
-      ),
+        }
+        return Loading();
+      },
     );
   }
 
@@ -84,7 +76,7 @@ class _MoviesbyGenresState extends State<MoviesbyGenres> {
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage("https://image.tmdb.org/t/p/w200"+movies[index].poster)
+                          image: movies[index].poster == null ? NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiUqGvs-Wgpbk4a8HcVMjOVeHJ7kiryV12xpX-WwjUty5NwqHlMTm4M1caosM6IYxkW9I&usqp=CAU") : NetworkImage("https://image.tmdb.org/t/p/w200"+movies[index].poster)
                         )
                       ),
                     ),

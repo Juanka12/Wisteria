@@ -190,6 +190,7 @@ class FirestoreService {
       return users;
     } catch (e) {
       print(e);
+      return users;
     }
   }
 

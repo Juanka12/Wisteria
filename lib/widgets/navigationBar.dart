@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wisteria/services/navigationService.dart';
 
 class NavigationBar extends StatefulWidget {
-  int index;
+  final int index;
   NavigationBar({Key key, @required this.index}) : super(key: key);
 
   @override

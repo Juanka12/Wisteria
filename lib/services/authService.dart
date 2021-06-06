@@ -19,6 +19,10 @@ class AuthService {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       await FirestoreService().createUser(modelUser.User(uid:userCredential.user.uid,email:email));
+      modelUser.User newUser = await FirestoreService().getUser(userCredential.user.uid);
+      if (newUser == null) {
+        FirestoreService().createUser(modelUser.User.withName(uid:userCredential.user.uid,name:'',surname:'',email:email,mobile: ''));
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         return 'The password is to weak';

@@ -67,6 +67,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
   }
 
   Widget buildDetailPage(MovieDetailResponse data, ScreenSize screen) {
+    print(data.movieDetail);
     MovieDetail detail = data.movieDetail;
     String genre = detail.genres;
     if (genre.contains(',')) {
@@ -95,7 +96,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
                     shape: BoxShape.rectangle,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage("https://image.tmdb.org/t/p/original/"+this.movie.poster)
+                      image: this.movie.poster == null ? NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiUqGvs-Wgpbk4a8HcVMjOVeHJ7kiryV12xpX-WwjUty5NwqHlMTm4M1caosM6IYxkW9I&usqp=CAU") : NetworkImage("https://image.tmdb.org/t/p/original/"+this.movie.poster)
                     )
                   ),
                 ),
@@ -116,7 +117,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: screen.width * 0.12,top: screen.height * 0.37),
+              padding: EdgeInsets.only(left: screen.width * 0.12,top: screen.height * 0.372),
               child: IconButton(
                 icon: detail.fav == true ? Icon(Icons.favorite, color: Colors.white, size: 40.0,) : Icon(Icons.favorite_border_outlined, color: Colors.white, size: 40.0,),
                 onPressed: () {
@@ -220,7 +221,7 @@ class _MovieDetailStateScreen extends State<MovieDetailScreen> {
                       child: Image(image: AssetImage("assets/icons/imdb.png")),
                       width: screen.width * 0.18,
                     ),
-                    Text(detail.imdbRate)
+                    Text(movie.rating.toString())
                   ],
                 ),
               ),

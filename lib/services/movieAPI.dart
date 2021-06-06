@@ -8,7 +8,7 @@ import 'package:wisteria/model/movieIdsResponse.dart';
 import 'package:wisteria/model/moviesResponse.dart';
 
 class MovieAPI {
-  final String _apiKey = "";
+  final String _apiKey = "4d9eb1e1a38c5254e6ae54d958c58a47";
   final String _movieUrl = "https://api.themoviedb.org/3";
 
   final Dio _dio = Dio();
@@ -106,7 +106,7 @@ class MovieAPI {
   Future<MovieDetailResponse> getMovieDetails(String id) async {
     String movieDetailUrl = "https://www.omdbapi.com/";
     var params = {
-      "apikey": '',
+      "apikey": 'fd781264',
       "i": id,
     };
     try {
